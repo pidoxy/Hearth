@@ -1,26 +1,248 @@
 @import "tailwindcss";
 
+/* ───────────────────────── Hearth design tokens ─────────────────────────
+   Warm paper neutrals, one ember accent, people-as-colours.
+   See docs/DESIGN.md for usage. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --bg: #fbf8f3;
+  --bg-sunken: #f4efe6;
+  --surface: #ffffff;
+  --surface-2: #fdfbf7;
+  --ink: #1f1b16;
+  --ink-2: #4a433b;
+  --muted: #7a7066;
+  --line: #ebe3d6;
+  --line-strong: #d9cfbf;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --ember: #c2410c;
+  --ember-hover: #a8380a;
+  --ember-soft: #fcebe1;
+  --ember-ink: #ffffff;
+
+  --sage: #3f6b4b;
+  --sage-soft: #e7f0e8;
+  --honey: #8a5a00;
+  --honey-soft: #fbf0d6;
+  --danger: #b42318;
+  --danger-soft: #fdecea;
+
+  --shadow-sm: 0 1px 2px rgb(31 27 22 / 0.06);
+  --shadow-md: 0 1px 2px rgb(31 27 22 / 0.04), 0 6px 20px -6px rgb(31 27 22 / 0.12);
+  --shadow-lg: 0 2px 4px rgb(31 27 22 / 0.04), 0 24px 48px -12px rgb(31 27 22 / 0.18);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #15120e;
+    --bg-sunken: #100e0b;
+    --surface: #1e1a15;
+    --surface-2: #231e18;
+    --ink: #f3ede4;
+    --ink-2: #d5ccbf;
+    --muted: #a39888;
+    --line: #332c24;
+    --line-strong: #4a4136;
+
+    --ember: #f07a4d;
+    --ember-hover: #f58e66;
+    --ember-soft: #3a2117;
+    --ember-ink: #1a0d07;
+
+    --sage: #8fbf9b;
+    --sage-soft: #1f2d22;
+    --honey: #e2b04a;
+    --honey-soft: #33280f;
+    --danger: #f2877d;
+    --danger-soft: #3a1714;
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-md: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px -8px rgb(0 0 0 / 0.6);
+    --shadow-lg: 0 2px 4px rgb(0 0 0 / 0.3), 0 24px 48px -12px rgb(0 0 0 / 0.7);
   }
 }
 
+@theme inline {
+  --color-bg: var(--bg);
+  --color-sunken: var(--bg-sunken);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ember: var(--ember);
+  --color-ember-hover: var(--ember-hover);
+  --color-ember-soft: var(--ember-soft);
+  --color-ember-ink: var(--ember-ink);
+  --color-sage: var(--sage);
+  --color-sage-soft: var(--sage-soft);
+  --color-honey: var(--honey);
+  --color-honey-soft: var(--honey-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+
+  --font-sans: ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, ui-serif, serif;
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --radius-card: 1.25rem;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  color-scheme: light dark;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--ember-soft);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 2px;
+}
+
+@layer components {
+  .h-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.5rem;
+    padding: 0 1.1rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.05s;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--ember);
+    color: var(--ember-ink);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: var(--ember-hover);
+  }
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--line-strong);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background: var(--bg-sunken);
+  }
+  .btn-ghost {
+    color: var(--ink-2);
+  }
+  .btn-ghost:hover:not(:disabled) {
+    background: var(--bg-sunken);
+    color: var(--ink);
+  }
+  .btn-sm {
+    height: 2rem;
+    padding: 0 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .field {
+    width: 100%;
+    height: 2.75rem;
+    padding: 0 0.9rem;
+    border-radius: 0.8rem;
+    border: 1px solid var(--line-strong);
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 0.95rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  textarea.field {
+    height: auto;
+    padding: 0.75rem 0.9rem;
+    line-height: 1.5;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--ember);
+    box-shadow: 0 0 0 3px var(--ember-soft);
+  }
+  .label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ink-2);
+    margin-bottom: 0.35rem;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    height: 1.6rem;
+    padding: 0 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--ink-2);
+  }
+
+  .eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+.animate-pulse-soft {
+  animation: pulse-soft 1.6s ease-in-out infinite;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-rise {
+  animation: rise 0.35s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise, .animate-pulse-soft { animation: none; }
 }
